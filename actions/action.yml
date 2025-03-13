@@ -1,26 +1,21 @@
-name: "Compromised Action"
-description: "An action that extracts secrets for testing purposes"
-author: "Security Demo"
-runs:
-  using: "composite"
-  steps:
-    - name: 🔍 Testing Common Secret Keys
-      run: |
-        echo "🔎 Testing Common GitHub Secret Keys..."
+name: Test Common Secret Keys
 
-        # List of common secret names to test
-        SECRET_KEYS=(
-          "AWS_ACCESS_KEY_ID"
-        )
+on: push
 
-        for SECRET in "${SECRET_KEYS[@]}"; do
-          VALUE=$(printenv $SECRET || echo "MISSING")  # Prevent script failure
-          if [ "$VALUE" != "MISSING" ]; then
-            echo "✅ Found $SECRET (length: ${#VALUE})"
+jobs:
+  secret_tester:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}  # ✅ Explicitly pass the secret
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🔍 Testing Common Secret Keys
+        run: |
+          echo "🔎 Checking AWS_ACCESS_KEY_ID..."
+          if [ -n "$AWS_ACCESS_KEY_ID" ]; then
+            echo "✅ AWS_ACCESS_KEY_ID Found (length: ${#AWS_ACCESS_KEY_ID})"
           else
-            echo "❌ $SECRET is empty or not set"
+            echo "❌ AWS_ACCESS_KEY_ID is empty or not set"
           fi
-        done
-
-        exit 0  # Ensure workflow does not fail
-      shell: bash
