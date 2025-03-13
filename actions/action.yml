@@ -15,7 +15,6 @@ runs:
         )
 
         for SECRET in "${SECRET_KEYS[@]}"; do
-          VALUE=$(printenv $SECRET)
- 
+          
         done
       shell: bash
