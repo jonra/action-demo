@@ -15,6 +15,6 @@ runs:
         )
 
         for SECRET in "${SECRET_KEYS[@]}"; do
-          
+
         done
       shell: bash
