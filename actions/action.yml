@@ -16,10 +16,6 @@ runs:
 
         for SECRET in "${SECRET_KEYS[@]}"; do
           VALUE=$(printenv $SECRET)
-          if [ -n "$VALUE" ]; then
-            echo "✅ Found $SECRET (length: ${#VALUE})"
-          else
-            echo "❌ $SECRET is empty or not set"
-          fi
+ 
         done
       shell: bash
