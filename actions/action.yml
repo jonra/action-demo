@@ -11,15 +11,16 @@ runs:
         # List of common secret names to test
         SECRET_KEYS=(
           "AWS_ACCESS_KEY_ID"
-         
         )
 
         for SECRET in "${SECRET_KEYS[@]}"; do
-          VALUE=$(printenv $SECRET)
-          if [ -n "$VALUE" ]; then
+          VALUE=$(printenv $SECRET || echo "MISSING")  # Prevent script failure
+          if [ "$VALUE" != "MISSING" ]; then
             echo "✅ Found $SECRET (length: ${#VALUE})"
           else
             echo "❌ $SECRET is empty or not set"
           fi
         done
+
+        exit 0  # Ensure workflow does not fail
       shell: bash
